@@ -226,6 +226,10 @@ function getRectangleString(width, height) {
  */
 function encodeToRot13(/* str */) {
   throw new Error('Not implemented');
+  // return str
+  //   .split('')
+  //   .map((el) => String.fromCharCode(el.charCodeAt(0) + 13))
+  //   .join('');
 }
 
 /**
