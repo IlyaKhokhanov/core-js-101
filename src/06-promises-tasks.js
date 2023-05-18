@@ -103,9 +103,7 @@ function chainPromises(array, action) {
     const arr = [];
     array.forEach((el) => el
       .then((result) => arr.push(result))
-      .catch((err) => {
-        throw new Error(err);
-      }));
+      .catch((err) => new Error(err)));
     resolve(arr);
   });
 

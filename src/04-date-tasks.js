@@ -51,8 +51,11 @@ function parseDataFromIso8601(value) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const year = date.getFullYear();
+  const newYear = new Date(year, 2, 0);
+
+  return newYear.getDate() === 29;
 }
 
 /**
@@ -70,8 +73,40 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  const newDate = endDate - startDate;
+
+  const res = [];
+
+  const hour = Math.floor(newDate / 1000 / 3600);
+  const min = Math.floor(((newDate / 1000) % 3600) / 60);
+  const sec = Math.floor(((newDate / 1000) % 3600) % 60);
+  const ms = Math.trunc(newDate % 1000);
+
+  if (hour) {
+    res.push(`${hour < 10 ? `0${hour}:` : `${hour}:`}`);
+  } else {
+    res.push('00:');
+  }
+  if (min) {
+    res.push(`${min < 10 ? `0${min}:` : `${min}:`}`);
+  } else {
+    res.push('00:');
+  }
+  if (sec) {
+    res.push(`${sec < 10 ? `0${sec}.` : `${sec}.`}`);
+  } else {
+    res.push('00.');
+  }
+  if (ms > 99) {
+    res.push(ms);
+  } else if (ms < 9) {
+    res.push(`${ms < 10 ? `00${ms}` : `0${ms}`}`);
+  } else {
+    res.push('000');
+  }
+
+  return res.join('');
 }
 
 /**
@@ -90,9 +125,23 @@ function timeSpanToString(/* startDate, endDate */) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
-  throw new Error('Not implemented');
+function angleBetweenClockHands(d) {
+  const date = new Date(d);
+  const hours = (date.getUTCHours() % 12) * 30 + date.getUTCMinutes() / 2;
+  const minutes = date.getUTCMinutes() * 6;
+
+  const degree = Math.abs(hours - minutes);
+
+  return degree > 180
+    ? (Math.PI * (360 - degree)) / 180
+    : (Math.PI * degree) / 180;
 }
+
+// if (degree > 180) {
+//   return (Math.PI * (360 - degree)) / 180;
+// } else {
+//   return (Math.PI * degree) / 180;
+// }
 
 module.exports = {
   parseDataFromRfc2822,
