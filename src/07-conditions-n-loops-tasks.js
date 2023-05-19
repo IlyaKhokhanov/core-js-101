@@ -82,8 +82,9 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  const sort = [a, b, c].sort((d, e) => d - e);
+  return sort[2] < sort[0] + sort[1];
 }
 
 /**
@@ -163,8 +164,11 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const arr = str.split('');
+  const repeat = arr.filter((el, i) => arr.indexOf(el) !== i);
+
+  return repeat ? arr.filter((el) => !repeat.includes(el))[0] : null;
 }
 
 /**
@@ -319,8 +323,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return n === 10 ? num : parseInt(num, 10).toString(n);
 }
 
 /**

@@ -137,12 +137,6 @@ function angleBetweenClockHands(d) {
     : (Math.PI * degree) / 180;
 }
 
-// if (degree > 180) {
-//   return (Math.PI * (360 - degree)) / 180;
-// } else {
-//   return (Math.PI * degree) / 180;
-// }
-
 module.exports = {
   parseDataFromRfc2822,
   parseDataFromIso8601,
