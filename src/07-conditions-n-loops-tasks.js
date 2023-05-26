@@ -63,8 +63,11 @@ function getFactorial(n) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  return new Array(n2 - n1 + 1)
+    .fill(0)
+    .map((el, i) => el + i + n1)
+    .reduce((acc, curVal) => acc + curVal, 0);
 }
 
 /**
@@ -119,8 +122,13 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const height1 = rect1.top < rect2.top + rect2.height;
+  const width1 = rect1.left < rect2.left + rect2.width;
+  const height2 = rect2.top < rect1.top + rect1.height;
+  const width2 = rect2.left < rect1.left + rect1.width;
+
+  return height1 && width1 && height2 && width2;
 }
 
 /**
@@ -149,8 +157,11 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const x = (point.x - circle.center.x) ** 2;
+  const y = (point.y - circle.center.y) ** 2;
+
+  return Math.sqrt(x + y) < circle.radius;
 }
 
 /**
@@ -252,8 +263,21 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const num = String(ccn);
+  const arr = [];
+
+  for (let i = 0; i < num.length; i += 1) {
+    if (i % 2 !== num.length % 2) {
+      arr.push(+num[i]);
+    } else if (+num[i] > 4) {
+      arr.push(+num[i] * 2 - 9);
+    } else {
+      arr.push(+num[i] * 2);
+    }
+  }
+
+  return arr.reduce((acc, el) => acc + el, 0) % 10 === 0;
 }
 
 /**
@@ -299,8 +323,24 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const close = ['>', ')', ']', '}'];
+  const open = ['<', '(', '[', '{'];
+
+  const stack = [];
+
+  for (let i = 0; i < str.length; i += 1) {
+    if (open.includes(str[i])) {
+      stack.push(str[i]);
+    } else if (
+      close.indexOf(str[i]) === open.indexOf(stack[stack.length - 1])
+    ) {
+      stack.pop();
+    } else {
+      return false;
+    }
+  }
+  return stack.length === 0;
 }
 
 /**
